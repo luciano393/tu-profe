@@ -1,0 +1,74 @@
+.Navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 6%;
+    .Navbar__brand {
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: $main-color;
+        font-weight: 600;
+        span {
+            color: darken($color: $main-color, $amount: 15);
+        }
+    }
+    @media (min-width:780px) {
+        padding: .5rem 7%;
+    }
+}
+
+.Navbar__menu {
+    position: fixed;
+    top: 0; right: -100%; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 4rem 13rem 0 2rem;
+    height: 100vh;
+    background-color: #ffffff;
+
+    transition: all .2s linear;
+    .Navbar__item {
+        text-decoration: none;
+        margin: 1rem 0;
+        color: $text-color;
+        &:hover {
+            color: lighten($color: $text-color, $amount: 10)
+        }
+    }
+    @media (min-width: 780px) {
+        flex-direction: row;
+        right: 0;
+        height: auto;
+        padding: 0;
+        position: relative;
+        background-color: $bg-color;
+        .Navbar__item {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            padding: .5rem 1rem;
+            margin-left: 2.5rem;
+            &:hover {
+                color:$main-color;
+            }
+        }
+    }
+}
+.open {
+    right: 0;
+    box-shadow: 0 0 15px rgba($color: #000000, $alpha: .5);
+}
+
+.close {
+    right: -100;
+}
+
+
+.Navbar__hamburger {
+    position: absolute;
+    top: .3rem;
+    right: 1rem;
+}
+

@@ -19,6 +19,9 @@ const ClasesSchema = new Schema({
     },
     precio: {
         type: String
+    },
+    categoria: {
+        type: String
     }
 });
 

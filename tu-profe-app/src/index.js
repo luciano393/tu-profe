@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import TuProfe from './TuProfe';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TuProfe />
   </React.StrictMode>,
   document.getElementById('root')
 );
