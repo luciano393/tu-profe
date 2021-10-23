@@ -1,0 +1,12 @@
+.Modal {
+    position: absolute;
+    top: 0;right: 0;left: 0; bottom: 0;
+    background-color: $white;
+    padding: 4rem 3rem;
+    z-index: 1000;
+    @media (min-width: 780px) {
+        position: fixed;
+        background-color: $text-color;
+        opacity: .9;
+    }
+}

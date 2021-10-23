@@ -1,0 +1,16 @@
+.btn {
+    padding: 1.5rem 1rem;
+    font-size: 15px;
+    border-radius: .5rem;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    background-color: $main-color;
+    color: $white;
+    &:hover {
+        background-color: darken($color: $main-color, $amount: 10);
+    }
+}
+.btn-submit {
+    
+}

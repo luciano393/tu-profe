@@ -2,11 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TuProfe from './TuProfe';
 
+import firebaseConfig from './config/firebase-config';
+import {
+  FirebaseAppProvider
+} from 'reactfire'
+
 
 ReactDOM.render(
-  <React.StrictMode>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <TuProfe />
-  </React.StrictMode>,
+  </FirebaseAppProvider>,
   document.getElementById('root')
 );
 

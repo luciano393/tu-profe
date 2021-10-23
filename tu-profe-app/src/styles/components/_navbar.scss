@@ -1,11 +1,13 @@
 .Navbar {
-    position: fixed;
+    position: absolute;
     top: 0; left: 0; right: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 6%;
+    transition: all .3s linear;
+    z-index: 99;
     .Navbar__brand {
         font-size: 1.5rem;
         text-decoration: none;
@@ -20,6 +22,21 @@
     }
 }
 
+.stiky {
+    position: fixed;
+    padding: 1rem 6%;
+    background-color: $white;
+    animation: traslate .3s ease;
+}
+@keyframes traslate {
+    0% {
+        top: -20%
+    }
+    100% {
+        top: 0;
+    }
+}
+
 .Navbar__menu {
     position: fixed;
     top: 0; right: -100%; bottom: 0;
@@ -27,9 +44,7 @@
     flex-direction: column;
     padding: 4rem 8rem 0 2rem;
     height: 100vh;
-    background-color: #ffffff;
-
-    transition: all .2s linear;
+    transition: all .5s linear;
     .Navbar__item {
         text-decoration: none;
         margin: 1rem 0;
@@ -44,12 +59,12 @@
         height: auto;
         padding: 0;
         position: relative;
-        background-color: $bg-color;
         .Navbar__item {
-            background-color: #ffffff;
+            background-color: $white;
             border-radius: 1rem;
             padding: .5rem 1rem;
             margin-left: 2.5rem;
+            color: $text-color;
             &:hover {
                 color:$main-color;
             }
@@ -65,10 +80,4 @@
     right: -100;
 }
 
-
-.Navbar__hamburger {
-    position: absolute;
-    top: .3rem;
-    right: 1rem;
-}
 

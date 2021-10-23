@@ -1,0 +1,55 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    .Navbar__hamburger {
+        left: 1rem;
+    }
+    h1 {
+        margin-bottom: 2rem;
+    }
+    input {
+        padding: 1.5rem 1rem;
+        font-size: 15px;
+        border-radius: .5rem;
+        font-weight: 600;
+        outline: none;
+        border: none;
+        background-color: $grey;
+    }
+    @media (min-width: 780px) {
+        position: relative;
+        background-color: $white;
+        max-width: 40rem;
+        padding: 4rem;
+        margin: auto;
+        border-radius: 1rem;
+        height: auto;
+    }
+}
+.btn-close {
+    position: absolute;
+    top: 1rem; left: 1rem;
+}
+
+
+.flex-row {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    input {
+        width: 100%;
+        margin: 1rem 0;
+    }
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    input {
+        width: 100%;
+        margin: 1rem 0;
+    }
+}
