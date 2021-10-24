@@ -4,9 +4,10 @@ import { useForm } from '../../hooks/useForm';
 import { startRegisterWithEmailPasswordName } from '../../redux/actions/auth';
 import { removeError, setError } from '../../redux/actions/ui';
 import validator from 'validator';
+import Swal from 'sweetalert2';
 
 
-export const RegisterScreen = (props) => {
+export const RegisterScreen = ({close, btn}) => {
     const dispatch = useDispatch();
     const { msgError } = useSelector( state => state.ui );
 
@@ -24,6 +25,16 @@ export const RegisterScreen = (props) => {
 
         if ( isFormValid() ) {
             dispatch( startRegisterWithEmailPasswordName(email, password, name));
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Usuario registrado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+                  close();
+            }, 1500) 
         }
     }
 
@@ -51,7 +62,7 @@ export const RegisterScreen = (props) => {
             onClick={handleModalContainerClick}
             onSubmit={ handleRegiste }
             >
-                {props.btn}
+                {btn}
                 <h1>Inscribite</h1>
                 <div className="flex-column">
                     {

@@ -12,22 +12,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faBook } from '@fortawesome/free-solid-svg-icons'
 import { SearchScreen } from '../main/SearchScreen';
 import { useOpen } from '../../hooks/useOpen';
+import { useAuth } from '../../hooks/useAuth';
 
 export const Navbar = (props) => {
     const screenWidth  = useScreen();
     const [open, changeOpen] = useOpen();
+    const [openLogin, login, openRegister, register] = useAuth();
 
-    const [login, setLogin] = useState(false);
-    const [register, setRegister] = useState(false);
-
-    const openLogin = () => {
-        setLogin(!login)
-    }
-
-    const openRegister = () => {
-        setRegister(!register)
-    }
- 
 
     const [isOpen, setOpen] = useState(false);  
 
@@ -105,20 +96,23 @@ export const Navbar = (props) => {
                         <Hamburger toggled="isOpen"
                         toggle={openLogin}
                         />
-                    </div>}/>
+                    </div>}
+                    />
                 </ModalWrapper>
             )}
 
             {(register) && (
                 <ModalWrapper closeModal={openRegister}>
-                    <RegisterScreen btn={
+                    <RegisterScreen 
+                    close={openRegister}
+                    btn={
                     <div className="btn-close">
                         <Hamburger toggled="isOpen"
                         toggle={openRegister}
                         />
                     </div>
                     }
-                    close={openRegister}
+
                     />
                 </ModalWrapper>
             )}

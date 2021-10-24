@@ -6,7 +6,7 @@ import { useForm } from '../../hooks/useForm';
 import Swal from "sweetalert2";
 
 
-export const LoginScreen = (props) => {
+export const LoginScreen = ({close, btn}) => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.ui);
 
@@ -28,15 +28,15 @@ export const LoginScreen = (props) => {
                 showConfirmButton: false,
                 timer: 1500
               })
-        }, 1500)
-
+              close();
+        }, 1500)   
     }
     
     const handleModalContainerClick = (e) => e.stopPropagation();
 
     return (
             <form className="form" onSubmit={ handleLogin } onClick={handleModalContainerClick}>
-                {props.btn}
+                {btn}
                 <h1>Conectate</h1>
                 <div className="flex-column">
                     <input 
