@@ -41,22 +41,23 @@ export const Inicio = (props) => {
                 <img src={image3} alt=""/>
             </div>
 
-            {(props.scroll > 200 & screen < 780) && (
-                <div 
-                className="input-box fixed"
-                onClick={changeOpen}
-                >
-                    <label><FontAwesomeIcon 
-                    icon={faBook}
-                    className="book"
-                    />¿Qué te interesa aprender?</label>
-                    <input 
-                    type="text"
-                    className="input"
-                    />
-                    <FontAwesomeIcon icon={faSearch}className="search"/>
-                </div>
-            )}
+            {props.scroll > 200 & screen < 780 ? 
+            <div 
+            className="input-box fixed"
+            onClick={changeOpen}
+            >
+                <label><FontAwesomeIcon 
+                icon={faBook}
+                className="book"
+                />¿Qué te interesa aprender?</label>
+                <input 
+                type="text"
+                className="input"
+                />
+                <FontAwesomeIcon icon={faSearch}className="search"/>
+            </div>
+            : null            
+            }
 
 
             <SearchScreen open={open} changeOpen={changeOpen}/>
