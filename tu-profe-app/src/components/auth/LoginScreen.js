@@ -1,33 +1,65 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { startLoginEmailPassword } from '../../redux/actions/auth';
+import { useForm } from '../../hooks/useForm';
+
+import Swal from "sweetalert2";
+
 
 export const LoginScreen = (props) => {
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
+    const dispatch = useDispatch();
+    const { loading } = useSelector(state => state.ui);
 
-    const auth = getAuth();
-    
-    const login = async () => {
-        await signInWithEmailAndPassword(auth, email, password);
+    const [ formValues, handleInputChange ] = useForm({
+        email: '',
+        password: ''
+    });
+
+    const { email, password} = formValues;
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        dispatch( startLoginEmailPassword( email, password));
+        setTimeout(() => {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Haz iniciado sesión correctamente',
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }, 1500)
+
     }
-
+    
     const handleModalContainerClick = (e) => e.stopPropagation();
 
     return (
-            <div className="form" onClick={handleModalContainerClick}>
+            <form className="form" onSubmit={ handleLogin } onClick={handleModalContainerClick}>
                 {props.btn}
                 <h1>Conectate</h1>
                 <div className="flex-column">
-                    <input type="email" id="email" placeholder="Correo electrónico"
+                    <input 
+                    type="text"
+                    placeholder="Correo electrónico"
+                    name="email"
                     autoComplete="off"
-                    onChange={setEmail}
+                    value={ email }
+                    onChange={ handleInputChange }
                     />
                     <input 
-                    type="password" id="password" placeholder="Ingresá tu contraseña"
-                    onChange={setPassword}
+                    type="password"
+                    placeholder="Contraseña"
+                    name="password"
+                    value={ password }
+                    onChange={ handleInputChange }
                     />
-                    <button className="btn" onClick={login}>Conexión</button>
+                    <button 
+                    className="btn"
+                    type="submit"
+                    disabled={ loading }
+                    >Conexión</button>
                 </div>
-            </div>
+            </form>
     )
 }

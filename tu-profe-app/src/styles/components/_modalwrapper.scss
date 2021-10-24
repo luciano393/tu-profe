@@ -6,7 +6,6 @@
     z-index: 1000;
     @media (min-width: 780px) {
         position: fixed;
-        background-color: $text-color;
-        opacity: .9;
+        background-color: rgba($color: $text-color, $alpha: .9);
     }
 }

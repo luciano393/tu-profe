@@ -1,51 +1,99 @@
-import React, { useState } from 'react'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
+import { startRegisterWithEmailPasswordName } from '../../redux/actions/auth';
+import { removeError, setError } from '../../redux/actions/ui';
+import validator from 'validator';
 
 
 export const RegisterScreen = (props) => {
-    const [ email, setEmail ] = useState('');
-    const [ password, setPassword ] = useState('');
+    const dispatch = useDispatch();
+    const { msgError } = useSelector( state => state.ui );
 
-    const auth = getAuth();
+    const [ formValues, handleInputChange ] = useForm({
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
+    })
 
-    
-    const register = async () => {
-        await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            props.close();
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-        })
+    const { name, email, password, password2 } = formValues;
+
+    const handleRegiste = (e) => {
+        e.preventDefault();
+
+        if ( isFormValid() ) {
+            dispatch( startRegisterWithEmailPasswordName(email, password, name));
+        }
     }
+
+    const isFormValid = () => {
+        if (name.trim().length === 0) {
+            dispatch( setError('Nombre es requerido'))
+            return false;
+        } else if( !validator.isEmail(email)) {
+            dispatch( setError('El correo electrónico no es valido'))
+            return false;
+        } else if ( password !== password2 || password.length < 5 ) {
+            dispatch( setError('La contraseña debe tener mas de 6 caracteres o ser igual a la otra'))
+            return false
+        }
+
+        dispatch( removeError() );
+        return true;
+    }
+    
     const handleModalContainerClick = (e) => e.stopPropagation();
 
     return (
-            <div className="form" onClick={handleModalContainerClick}>
+            <form 
+            className="form" 
+            onClick={handleModalContainerClick}
+            onSubmit={ handleRegiste }
+            >
                 {props.btn}
                 <h1>Inscribite</h1>
                 <div className="flex-column">
+                    {
+                        msgError && 
+                        (
+                            <div className="error">
+                                { msgError}
+                            </div>
+                        )
+                    }
                     <input 
-                    type="email" 
-                    id="email" 
+                    type="text"
+                    placeholder="Nombre"
+                    name="name"
+                    autoComplete="off"
+                    onChange={ handleInputChange }
+                    />
+                    <input 
+                    type="text"
                     placeholder="Correo electrónico"
+                    name="email"
                     autoComplete="off"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={ handleInputChange}
                     />
                     <input 
-                    type="password" 
-                    id="password" 
-                    placeholder="Creá una contraseña"
-                    autoComplete="off"
-                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    onChange={ handleInputChange }
                     />
-                    <button className="btn"
-                    onClick={register}>Crear cuenta</button>
+
+                    <input 
+                    type="password"
+                    placeholder="Confirm password"
+                    name="password2"
+                    onChange={ handleInputChange }
+                    />
+                    <button 
+                    className="btn"
+                    type="submit"
+                    >Crear cuenta</button>
                 </div>
-            </div>
+            </form>
     )
 }

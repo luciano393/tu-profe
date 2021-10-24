@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { faSearch, faBook, faArrowLeft, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react'
+import { faSearch, faBook} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import image1 from '../../assets/images/image.jpg';
 import image2 from '../../assets/images/pexels-max-fischer-5212339.jpg'
 import image3 from '../../assets/images/pexels-august-de-richelieu-4260314.jpg'
 
+import { useScreen } from '../../hooks/useScreen';
+import { SearchScreen } from './SearchScreen';
+import { useOpen } from '../../hooks/useOpen';
+
 export const Inicio = (props) => {
-    const [isOpen, setOpen] = useState(false)
-
-    const searchOpen = () => {
-        setOpen(!isOpen);
-    }
-
-    const slide = isOpen ? "busqueda open" : "busqueda close";
+    const screen = useScreen();
+    const [open, changeOpen] = useOpen();
 
 
     return (
@@ -22,7 +21,7 @@ export const Inicio = (props) => {
                 <h1>Encontrá tu profe ideal</h1>
                 <div 
                 className="input-box primary"
-                onClick={searchOpen}
+                onClick={changeOpen}
                 >
                     <label><FontAwesomeIcon 
                     icon={faBook}
@@ -42,10 +41,10 @@ export const Inicio = (props) => {
                 <img src={image3} alt=""/>
             </div>
 
-            {(props.scroll > 200) && (
+            {(props.scroll > 200 & screen < 780) && (
                 <div 
                 className="input-box fixed"
-                onClick={searchOpen}
+                onClick={changeOpen}
                 >
                     <label><FontAwesomeIcon 
                     icon={faBook}
@@ -60,30 +59,7 @@ export const Inicio = (props) => {
             )}
 
 
-            <div className={slide}>
-                <div className="heading">
-                    <FontAwesomeIcon 
-                    icon={faArrowLeft}className="arrow"
-                    onClick={searchOpen}
-                    />
-                    <span>Buscar</span>
-                </div>
-                <div className="input-search">
-                    <FontAwesomeIcon 
-                    icon={faBook}
-                    className="book"
-                    />
-                    <input 
-                    placeholder="¿Qué materia?"
-                    />
-                </div>
-                <div className="input-search">  
-                    <FontAwesomeIcon icon={faMapMarkedAlt}className="book"/>
-                    <input 
-                    placeholder="¿Dirección, ciudad o barrio?"
-                    />
-                </div>
-            </div>
+            <SearchScreen open={open} changeOpen={changeOpen}/>
         </div>
     )
 }

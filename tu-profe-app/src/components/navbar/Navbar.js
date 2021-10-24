@@ -4,9 +4,19 @@ import { ModalWrapper } from '../modal/ModalWrapper';
 import Hamburger from 'hamburger-react';
 import { LoginScreen } from '../auth/LoginScreen';
 import { RegisterScreen } from '../auth/RegisterScreen';
-import { getAuth, signOut } from '@firebase/auth';
+import { getAuth } from '@firebase/auth';
+import { useDispatch } from 'react-redux';
+import { startLogout } from '../../redux/actions/auth';
+import { useScreen } from '../../hooks/useScreen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faBook } from '@fortawesome/free-solid-svg-icons'
+import { SearchScreen } from '../main/SearchScreen';
+import { useOpen } from '../../hooks/useOpen';
 
 export const Navbar = (props) => {
+    const screenWidth  = useScreen();
+    const [open, changeOpen] = useOpen();
+
     const [login, setLogin] = useState(false);
     const [register, setRegister] = useState(false);
 
@@ -19,35 +29,17 @@ export const Navbar = (props) => {
     }
  
 
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-    const [isOpen, setOpen] = useState(false);
-
-    useEffect(() => {
-        const changeWidth = () => {
-            setScreenWidth(window.innerWidth);
-        }
-
-        window.addEventListener('resize', changeWidth)
-
-        return () => {
-            window.removeEventListener('resize', changeWidth)
-        }
-    }, [])
-
-    
+    const [isOpen, setOpen] = useState(false);  
 
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const dispatch = useDispatch()
+
 
     const Logout = () => {
-        signOut(auth).then(() => {
-            setOpen(!isOpen)
-        }).catch((error) => {
-            console.log(error)
-        })
+        dispatch(startLogout())
     }
-
 
     const slide = isOpen ? "Navbar__menu open" : "Navbar__menu close";
     
@@ -60,28 +52,42 @@ export const Navbar = (props) => {
                     tu<span>Profe</span>
                 </Link>
 
+                {props.scroll > 200 & screenWidth > 780 ? 
+                    <div 
+                    className="Navbar__search input-box"
+                    onClick={changeOpen}
+                    >
+                        <label><FontAwesomeIcon 
+                        icon={faBook}
+                        className="book"
+                        />¿Qué te interesa aprender?</label>
+                        <input 
+                        type="text"
+                        className="input"
+                        />
+                        <FontAwesomeIcon icon={faSearch}className="search"/>
+                    </div>
+                    : null
+                }
+
                 <nav className={slide}>
 
-                    {(user) && (
-                        <Link className="Navbar__item"
-                        to="/"
-                        onClick={Logout}>Cerrar sesion</Link>
-                    )}
-                    {(!user) && (
-                        <>
+                    {user
+                        ? <Link className="Navbar__item" to="/" onClick={Logout}>Cerrar sesion</Link>
+                        : <>
                             <Link to="/" className="Navbar__item"
                             onClick={openRegister}
                             >
                             Registrarse   
                             </Link>
-    
+
                             <Link to="/" className="Navbar__item"
                             onClick={openLogin}
                             >
                             Conectarse   
                             </Link>
-                        </>
-                    )}
+                          </>
+                    }
                 </nav>
 
                 {(screenWidth < 780) && (
@@ -116,6 +122,8 @@ export const Navbar = (props) => {
                     />
                 </ModalWrapper>
             )}
+
+            <SearchScreen open={open} changeOpen={changeOpen}/>
         </>
     )
 }
