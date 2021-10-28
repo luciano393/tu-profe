@@ -5,6 +5,7 @@ import {
     Route,
 } from 'react-router-dom';
 import { MainScreen  } from "../components/main/MainScreen";
+import { Results } from "../components/main/Results";
 
 
 
@@ -16,7 +17,14 @@ export const AppRouter = () => {
 
                     <Route
                         path="/"
+                        exact
                         component={ MainScreen }
+                    />
+
+                    <Route 
+                        path="/results"
+                        exact
+                        component={Results}
                     />
                     
                 </Switch>
